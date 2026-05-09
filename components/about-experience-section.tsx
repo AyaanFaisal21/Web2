@@ -143,12 +143,23 @@ function DecryptingHeader({ text, progress, active = false }: { text: string; pr
 const EXPERIENCES = [
   {
     role: 'Lead Software Engineer',
-    company: 'Vaultpass',
+    company: 'Early Stage Data Protection Startup',
     dates: 'Apr 2026 – Present',
     bullets: [
-      'Architecting a locally-running privacy layer that intercepts outbound AI prompts, redacts sensitive data before it reaches any external server, and reconstructs complete responses on the other side — with no change to the user\'s existing workflow.',
-      'Designed a five-component system: a Rust-based HTTPS proxy, a dual-layer detection engine combining regex and a locally-hosted quantized LLM, an SQLCipher-encrypted local vault, and a tamper-evident audit log.',
-      'Specced cross-platform support, sub-200ms latency requirements, and compatibility with OpenAI, Anthropic, Gemini, Mistral, and Ollama endpoints from day one.',
+      'Architected a locally-running Rust/Tokio HTTPS interception proxy with custom TLS termination via a device-bound CA, routing **100%** of outbound LLM traffic through a detection pipeline without modifying provider authentication or breaking streaming SSE protocols.',
+      'Engineered a two-layer sensitive data detection system combining regex/NER pattern matching with a locally-hosted quantized Phi-3-mini model (Q4_K_M, **<500MB** RAM), achieving **sub-150ms** end-to-end sanitization latency on CPU-only hardware across OpenAI, Anthropic, and Google Gemini endpoints.',
+      'Built an encrypted local vault using SQLite/SQLCipher with OS keychain key derivation to store sensitive-to-placeholder mappings, enabling full response reconstruction without any client data crossing the network boundary.',
+      'Designed a tamper-evident audit logging system capturing per-prompt detection metadata (categories, confidence scores, SHA-256 prompt hashes) with **0** sensitive data retained, producing compliance-exportable records of all AI-assisted interactions.',
+    ],
+  },
+  {
+    role: 'Learning Assistant — Calculus II',
+    company: 'Rutgers University New Brunswick',
+    dates: 'Apr 2026 – Apr 2027',
+    bullets: [
+      'Support student understanding of multivariable calculus, sequences and series, and integral techniques by leading collaborative problem-solving sessions and translating abstract mathematical concepts into accessible, intuitive frameworks.',
+      'Bridge the gap between lecture and comprehension by identifying recurring points of confusion across students and developing targeted explanations that address conceptual gaps rather than surface-level procedure.',
+      'Collaborate with course instructors to align supplementary support with curriculum pacing, ensuring students build foundational fluency before advancing to more complex applications.',
     ],
   },
   {
@@ -156,9 +167,10 @@ const EXPERIENCES = [
     company: 'Freelance',
     dates: 'Jul 2025 – Present',
     bullets: [
-      'Designing and shipping user-facing web experiences across independent projects, spanning information architecture, component design, and deployment.',
-      'Current and recent work includes the Fantasy Stocks platform frontend, this portfolio, and the forthcoming Vaultpass product site.',
-      'Consistent focus on responsive layouts, intuitive interaction patterns, and visual polish across every build.',
+      'Designed and shipped tasteful, visually intensive web experiences featuring WebGL shaders, physics simulations, and scroll-driven animations, achieving Lighthouse scores **>90** across audited categories, validated through Chrome DevTools performance audits.',
+      'Instrumented a custom Three.js WebGL renderer with Chrome DevTools, identifying a requestAnimationFrame loop consuming **722ms** of GPU self-time; reduced tick self-time by **65%** (**722ms → 255ms**) through scroll-progress-based render gating.',
+      'Eliminated a CLS score of **1.49**, nearly **15×** over Google\'s "Good" threshold, by migrating scroll-driven panels from layout-property animations to compositor-only transforms, achieving **100%** CLS reduction site-wide with zero INP regression.',
+      'Reduced image payload by **89%** on the primary background asset (**6.7MB → 716KB**) via JPEG-to-WebP conversion and re-enabling Next.js image optimization, cutting estimated per-session bandwidth by over **90%**.',
     ],
   },
   {
@@ -166,11 +178,14 @@ const EXPERIENCES = [
     company: 'Muslim Tech Collaborative, Rutgers',
     dates: 'Dec 2025 – Present',
     bullets: [
-      'Co-coordinated a hackathon featuring $4,000+ in prizes and meaningful industry participation, managing logistics, partner communication, and attendee experience.',
-      'Organized a career networking event connecting 70 students with 10 professionals, navigating outreach and positioning in a campus environment dense with competing events.',
+      'Co-coordinated a hackathon featuring **$4,000+** in prizes and meaningful industry participation, managing logistics, partner communication, and attendee experience.',
+      'Organized a career networking event connecting **70** students with **10** professionals, navigating outreach and positioning in a campus environment dense with competing events.',
       'Partnered with student leaders and external professionals to expand access to mentorship and career opportunities in tech.',
     ],
   },
+]
+
+const EXPANDED_ONLY_EXPERIENCES = [
   {
     role: 'Officer & Fundraiser Lead',
     company: 'Muslim Student Association, WWP-HSN',
@@ -181,29 +196,46 @@ const EXPERIENCES = [
       'Developed an execution playbook covering roles, cash-handling, and communications, enabling smooth event delivery with zero incidents.',
     ],
   },
+  {
+    role: 'Varsity Team Captain',
+    company: 'WWP-HSN Esports Club (League of Legends)',
+    dates: 'Oct 2022 – June 2024',
+    bullets: [
+      'Led a cross-skill-gap roster as the team\'s primary shot-caller, coordinating structured home practice sessions to develop team cohesion, communication, and strategic execution across players ranging from Bronze to Diamond-level competition.',
+      'Translated high-level game sense into digestible, actionable callouts for teammates several skill tiers below, building a shared strategic vocabulary that elevated collective performance beyond individual rank.',
+      'Guided the team to a 3rd place finish in the Garden State Esports League of Legends Championship (Fall 2022), competing at the varsity level against schools across New Jersey.',
+    ],
+  },
 ]
 
 const TECH_PROJECTS = [
   {
-    id: 'sage',
-    title: 'Sage — AI Group Chat Agent',
-    tags: ['TypeScript', 'Node.js', 'Gemini API', 'Voyage AI', 'Chroma', 'Photon SDK'],
-    description: 'An AI participant that lives natively in iMessage group chats, built for the HackPrinceton "Agents in iMessage" track. Speaks fewer than 1 in 10 messages — intervening only when grounded in real context. Two-tier memory architecture (rolling buffer + Chroma vector store with Voyage-3 embeddings) reduced API calls 83%. Gemini intent classification combined with top-K retrieval cut response noise 98.8% versus naive agents.',
-    image: '/Sage.jpg',
-  },
-  {
-    id: 'skindex',
-    title: 'Skindex — Skin Lesion Classifier',
-    tags: ['PyTorch', 'ONNX', 'Flask', 'React', 'Vite', 'SQLite', 'JWT'],
-    description: 'Full-stack diagnostic web app for AI-powered skin condition classification across 8 categories. Trained EfficientNet-B0 on the Google × Stanford SCIN dataset (~10k clinical images), achieving 98.9% test accuracy. Exported to ONNX for cross-platform inference across CUDA, MPS, and CPU. Flask backend with JWT auth, demographic health profiling, and per-user scan history. React frontend with live image capture and AI guidance via DeepSeek.',
-    image: '/Skinndex.jpg',
+    id: 'pokermind',
+    title: 'PokerMind AI — Multi-Agent Decision System (Incomplete)',
+    tags: ['Python', 'LangGraph', 'Claude API', 'CrewAI', 'Playwright', 'PostgreSQL', 'Redis', 'Docker', 'AWS ECS', 'Grafana', 'scikit-learn'],
+    description: 'A behavioral AI research system built around a genuinely hard problem: what does it take for an autonomous agent to play poker indistinguishably from a human? Deterministic strategy is table stakes — the deeper challenge is defeating bot-detection heuristics that fingerprint agents on action-timing regularity, bet-sizing quantization, and decision-tree periodicity. PokerMind uses a council-of-agents architecture: four LLM microservices (Strategist, Historian, Humanizer, Orchestrator) debate each action before it\'s committed. A behavioral evasion subsystem samples timing jitter, deliberate errors, and fatigue patterns from learned human priors. Deployed on AWS ECS with Redis message brokering and a Grafana observability layer.',
+    image: '/AgentSwarm.png',
   },
   {
     id: 'fantasy-stocks',
     title: 'Fantasy Stocks',
     tags: ['React', 'FastAPI', 'PostgreSQL', 'WebSockets', 'AsyncIO', 'Pandas', 'Supabase'],
-    description: 'Real-time multiplayer platform where users draft stocks like fantasy sports players and compete on actual market performance. Full user auth, private leagues, live chat, and real-time draft via WebSockets in FastAPI and React Context. Per-league AsyncIO locks and presence timeouts prevent state leakage across 50+ concurrent leagues. Batched stock lookups and Pandas interpolation with Supabase/PostgreSQL caching cut external API calls 70%.',
+    description: 'The stock market is a lot less intimidating when it\'s a game. Fantasy Stocks lets you draft real companies like sports picks, join private leagues, and compete on actual market performance — built for the curious, not-yet-committed investor who wants a reason to care about tickers. Real-time drafts, weekly head-to-head matchups, and a live leaderboard make the learning feel like winning.',
     image: '/FantasyStocks.webp',
+  },
+  {
+    id: 'sage',
+    title: 'Sage — AI Group Chat Agent',
+    tags: ['TypeScript', 'Node.js', 'Gemini API', 'Voyage AI', 'Chroma', 'Photon SDK'],
+    description: 'Most group-chat bots are noise. Sage is an AI that lives inside your iMessage group and speaks fewer than 1 in 10 messages — only when it has something real to say. It answers @mentions like a friend who was there, surfaces unresolved tension when the group goes quiet, and intervenes when someone contradicts or forgets a detail established earlier in the conversation. That last behavior hints at something bigger: in large organizations where teams move fast and context gets lost, an agent with real memory could quietly prevent the kind of drift that causes costly misalignment. Built for HackPrinceton\'s Agents in iMessage track.',
+    image: '/sageNEW.jpg',
+  },
+  {
+    id: 'skindex',
+    title: 'Skindex — Skin Lesion Classifier',
+    tags: ['PyTorch', 'ONNX', 'Flask', 'React', 'Vite', 'SQLite', 'JWT'],
+    description: 'Googling your symptoms is stressful. A clinic visit for a minor skin concern feels like too much. Skindex sits in between — snap a photo, and it classifies the condition across 10 categories with urgency levels that tell you whether to monitor it, treat it at home, or actually see a doctor. An onboard assistant handles follow-up questions. Informational support, not a diagnosis.',
+    image: '/Skinndex.jpg',
   },
   {
     id: 'poli',
@@ -217,10 +249,10 @@ const TECH_PROJECTS = [
     title: 'Car Deal Predictor — Used Car Classification Model',
     tags: ['R', 'XGBoost', 'Random Forest', 'Ensemble Learning'],
     description: 'Built a classification model in R to rate used-car deals across 10,000 listings from Dubai, achieving 92% cross-validation accuracy with XGBoost. Engineered features capturing hidden relationships between price, mileage, and benchmark value, reducing multicollinearity and improving validation accuracy by 4%. Closed a 4–5% overfitting gap through 5-fold cross-validation, model stacking, and probability-based ensembling to ensure performance held on unseen data.',
-    image: '/CarDeal.jpg',
+    image: '/CarDeal.jpeg',
   },
 ]
-const N_DISPLAY = 3
+const N_DISPLAY = 4
 
 const SKILLS = [
   { category: 'Programming Languages', items: ['Python', 'TypeScript', 'JavaScript', 'Java', 'R', 'C', 'SQL', 'HTML/CSS'] },
@@ -230,6 +262,16 @@ const SKILLS = [
 ]
 
 function clamp(v: number, lo: number, hi: number) { return Math.max(lo, Math.min(hi, v)) }
+
+// Splits on **bold** markers and renders matches as white semibold spans
+const BOLD_RE = /(\*\*[^*]+\*\*)/g
+function renderBullet(text: string) {
+  return text.split(BOLD_RE).map((part, i) =>
+    part.startsWith('**') && part.endsWith('**')
+      ? <strong key={i} className="text-white font-semibold">{part.slice(2, -2)}</strong>
+      : part
+  )
+}
 
 const WHITE_GLOW = '0 0 40px 4px rgba(255,255,255,0.08), 0 0 80px 8px rgba(255,255,255,0.04)'
 const cardGlow = { boxShadow: WHITE_GLOW }
@@ -251,7 +293,7 @@ function ExperienceCard({ role, company, dates, bullets }: typeof EXPERIENCES[0]
         {bullets.map((b, i) => (
           <li key={i} className="text-zinc-300 font-light leading-relaxed font-shippori flex gap-3" style={{ fontSize: '1.05rem' }}>
             <span className="text-zinc-500 flex-shrink-0 mt-0.5">—</span>
-            <span>{b}</span>
+            <span>{renderBullet(b)}</span>
           </li>
         ))}
       </ul>
@@ -434,9 +476,10 @@ export function AboutExperienceSection() {
 
   const expandedMV = useMotionValue(0)
   useEffect(() => { expandedMV.set(expandedView !== 'none' ? 1 : 0) }, [expandedView, expandedMV])
+  const backButtonFadeOut = useTransform(finalBoxProgress, [0.28, 0.38], [1, 0])
   const footerOpacity = useTransform(
-    [expandedMV, techHeaderOpacity] as MotionValue<number>[],
-    ([exp, tech]: number[]) => exp * tech
+    [expandedMV, techHeaderOpacity, backButtonFadeOut] as MotionValue<number>[],
+    ([exp, tech, back]: number[]) => exp * Math.min(tech, back)
   )
 
   // Slide free-scroll cards up from below viewport as decryption runs (techScrollProgress 0→1).
@@ -644,7 +687,7 @@ I'm also drawn to problems where the right answer isn't obvious—where prudent 
                     <div className="absolute inset-2 overflow-hidden border border-zinc-800">
                       <Image src="/MastesrPromotion.jpg" fill className="object-cover opacity-90" alt="Master's Promotion" sizes="(max-width: 1024px) 88vw, 34vw" />
                       <div className="absolute bottom-0.5 left-0.5 right-0.5 bg-black px-3 py-2 text-center">
-                        <p className="text-base text-white/80 font-light font-shippori">Me becoming a 99th percentile LoL player</p>
+                        <p className="text-base text-white/80 font-light font-shippori">Statistically, I'm apart of the 99th percentile of LoL players!</p>
                       </div>
                     </div>
                   </div>
@@ -682,7 +725,7 @@ We're all more than our work, but through my work and beyond it, you'll learn th
           {/* ── Panel 0 (left): All Experiences ── */}
           <div ref={experiencePanelRef} className="w-screen flex-shrink-0 bg-black px-16 pb-20" style={{ paddingTop: 'calc(64px + 100px + 24px)' }}>
             <div className="flex flex-col gap-6">
-              {EXPERIENCES.map((exp, i) => (
+              {[...EXPERIENCES, ...EXPANDED_ONLY_EXPERIENCES].map((exp, i) => (
                 <motion.div key={exp.role}
                   initial={{ opacity: 0, y: 20 }}
                   animate={expandedView === 'experiences' ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -721,9 +764,10 @@ We're all more than our work, but through my work and beyond it, you'll learn th
 
           {/* ── Panel 2 (right): All Projects ── */}
           <div ref={projectsPanelRef} className="w-screen flex-shrink-0 bg-black px-16 pb-20" style={{ paddingTop: 'calc(64px + 100px + 24px)' }}>
-            <div className="grid grid-cols-2 gap-6">
+            <div style={{ columns: 2, gap: '1.5rem' }}>
               {TECH_PROJECTS.map((p, i) => (
                 <motion.div key={p.id}
+                  style={{ breakInside: 'avoid', marginBottom: '1.5rem' }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={expandedView === 'projects' ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.4, delay: i * 0.07, ease: 'easeOut' }}
@@ -875,7 +919,7 @@ We're all more than our work, but through my work and beyond it, you'll learn th
                       name="message" placeholder="Your message" required rows={8}
                       className="bg-black/40 border border-zinc-700 px-4 py-3 text-zinc-200 font-shippori text-sm focus:outline-none focus:border-white/60 focus:shadow-[0_0_10px_2px_rgba(255,255,255,0.18),0_0_24px_rgba(255,255,255,0.08)] transition-all resize-none placeholder:text-zinc-600"
                     />
-                    <div className="flex items-center justify-end gap-4">
+                    <div className="flex items-center justify-center gap-4">
                       {formState === 'sent' && (
                         <span className="text-zinc-400 font-shippori text-xs tracking-wide">Message sent — I'll be in touch.</span>
                       )}
