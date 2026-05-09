@@ -198,7 +198,7 @@ const EXPANDED_ONLY_EXPERIENCES = [
   },
   {
     role: 'Varsity Team Captain',
-    company: 'WWP-HSN Esports Club (League of Legends)',
+    company: 'Esports Club (League of Legends), WWP-HSN',
     dates: 'Oct 2022 – June 2024',
     bullets: [
       'Led a cross-skill-gap roster as the team\'s primary shot-caller, coordinating structured home practice sessions to develop team cohesion, communication, and strategic execution across players ranging from Bronze to Diamond-level competition.',

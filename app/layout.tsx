@@ -36,8 +36,19 @@ const italiana = Italiana({
 
 export const metadata: Metadata = {
     title: 'Ayaan Faisal — Software Engineer Portfolio',
-    description: 'I like building things and making predictions. Check out how I\'ve applied my interests by developing tools aiming to tackle real problems.',
+    description: 'Riding the intelligent-tech wave',
     generator: 'v0.app',
+    openGraph: {
+        title: 'Ayaan Faisal — Software Engineer Portfolio',
+        description: 'Riding the intelligent-tech wave',
+        images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Ayaan Faisal — Software Engineer Portfolio',
+        description: 'Riding the intelligent-tech wave',
+        images: ['/og-image.png'],
+    },
     icons: {
         icon: [
             {
