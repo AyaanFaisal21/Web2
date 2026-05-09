@@ -3,9 +3,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  images: {
-    unoptimized: true,
-  },
   async redirects() {
     return [
       { source: '/about',   destination: '/', permanent: false },

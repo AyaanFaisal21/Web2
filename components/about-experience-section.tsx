@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionValueEvent, type MotionValue } from "motion/react"
 import { Github, Linkedin, FileText } from "lucide-react"
 
@@ -278,7 +279,7 @@ function ProjectCard({ title, tags, description, image }: typeof TECH_PROJECTS[0
         </p>
       </div>
       <div className="relative h-36 border-t border-zinc-700 flex-shrink-0">
-        <img src={image} alt={title} className="absolute inset-0 w-full h-full object-cover grayscale opacity-50" />
+        <Image src={image} alt={title} fill className="object-cover grayscale opacity-50" sizes="(max-width: 768px) 100vw, 50vw" />
       </div>
     </div>
   )
@@ -307,15 +308,18 @@ export function AboutExperienceSection() {
   // top = (100vh + 164px - 74vh) / 2 = 13vh + 82px  (CSS: calc(13vh + 82px))
   // For Framer Motion animations we need a pure-vh value; compute it from window.innerHeight.
   const platformTopRef = useRef(20) // vh, updated on mount
+  const platformTopMV  = useMotionValue(20)
   useEffect(() => {
     const compute = () => {
       const h = window.innerHeight
-      platformTopRef.current = ((164 + (h - 164 - h * 0.74) / 2) / h) * 100
+      const val = ((164 + (h - 164 - h * 0.74) / 2) / h) * 100
+      platformTopRef.current = val
+      platformTopMV.set(val)
     }
     compute()
     window.addEventListener('resize', compute)
     return () => window.removeEventListener('resize', compute)
-  }, [])
+  }, [platformTopMV])
 
   const [expandedView, setExpandedView] = useState<'none' | 'experiences' | 'projects'>('none')
 
@@ -413,13 +417,16 @@ export function AboutExperienceSection() {
     target: finalBoxContainerRef,
     offset: ['start start', 'end end'],
   })
-  const techHeaderFadeOut        = useTransform(finalBoxProgress, [0.38, 0.55], [1, 0])
-  // Skills content: appears on slide, holds, fades as background image begins to appear
-  const finalBoxContentOpacity   = useTransform(finalBoxProgress, [0.10, 0.18, 0.38, 0.56], [0, 1, 1, 0])
-  // Background image: starts only after skills are gone + dead zone, so no accidental glimpse
-  const bgImageOpacity           = useTransform(finalBoxProgress, [0.70, 0.85], [0, 1])
-  // Contact content: fades in once background is fully settled
-  const contactContentOpacity    = useTransform(finalBoxProgress, [0.85, 0.97], [0, 1])
+  const techHeaderFadeOut        = useTransform(finalBoxProgress, [0.48, 0.62], [1, 0])
+  // Skills content: fades out before background image appears
+  const finalBoxContentOpacity   = useTransform(finalBoxProgress, [0.10, 0.18, 0.30, 0.40], [0, 1, 1, 0])
+  // Skills box shell: gone just as bg image becomes visible
+  const skillsBoxOpacity         = useTransform(finalBoxProgress, [0.30, 0.42], [1, 0])
+  // Background image: fades into the box at partial opacity first (still clipped to box dims),
+  // then ramps to full as expansion begins at 0.48
+  const bgImageOpacity           = useTransform(finalBoxProgress, [0.33, 0.48, 0.70], [0, 0.65, 1])
+  // Contact content: fades in once expansion is well underway
+  const contactContentOpacity    = useTransform(finalBoxProgress, [0.72, 0.87], [0, 1])
   const techHeaderOpacity = useTransform(
     [techHeaderFadeIn, techHeaderFadeOut] as MotionValue<number>[],
     ([a, b]: number[]) => Math.min(a, b)
@@ -445,52 +452,39 @@ export function AboutExperienceSection() {
     }
   )
 
-  const finalBoxRef = useRef<HTMLDivElement>(null)
-  useMotionValueEvent(finalBoxProgress, 'change', (v) => {
-    if (!finalBoxRef.current) return
-    const el = finalBoxRef.current
-    // Resting position: anchored just below the fixed header strip (164px) with a small gap.
-    // All values in px so the box never overlaps the header on any viewport height.
-    const h     = window.innerHeight
-    const rTop  = 176          // px — 164px header bottom + 12px gap
-    const rH    = h - rTop - 16 // px — fills to 16px above viewport bottom
-    const rW    = 72           // vw
-    const rL    = 14           // vw
-
-    if (v < 0.20) {
-      const t = clamp(v / 0.20, 0, 1)
-      el.style.transform = `translateY(${(1 - t) * 100}%)`
-      el.style.top    = `${rTop}px`
-      el.style.height = `${rH}px`
-      el.style.width  = `${rW}vw`
-      el.style.left   = `${rL}vw`
-      return
-    }
-    el.style.transform = 'translateY(0)'
-    if (v < 0.38) {
-      el.style.top    = `${rTop}px`
-      el.style.height = `${rH}px`
-      el.style.width  = `${rW}vw`
-      el.style.left   = `${rL}vw`
-      return
-    }
-    // Phase 3: expand to fullscreen
-    const fill  = clamp((v - 0.38) / (0.88 - 0.38), 0, 1)
+  // Resting box: top=176px, left=14vw, width=72vw, bottom-gap=16px.
+  // Slide-up: translateY 100%→0 over finalBoxProgress [0, 0.20].
+  // Clip-path expansion: inset shrinks from resting dims → 0 over [0.48, 0.88].
+  // Both are compositor-only — no top/left/width/height mutations, zero CLS.
+  const finalBoxSlideY = useTransform(finalBoxProgress, (v) =>
+    v >= 0.20 ? '0%' : `${(1 - clamp(v / 0.20, 0, 1)) * 100}%`
+  )
+  const finalBoxClipPath = useTransform(finalBoxProgress, (v) => {
+    if (v < 0.48) return 'inset(176px 14vw 16px 14vw)'
+    const fill  = clamp((v - 0.48) / (0.88 - 0.48), 0, 1)
     const tFast = clamp(fill / 0.45, 0, 1)
     const tSlow = clamp(fill / 0.70, 0, 1)
-    el.style.top    = `${rTop  * (1 - tFast)}px`
-    el.style.height = `${rH   + (h  - rH)  * tFast}px`
-    el.style.width  = `${rW   + (100 - rW) * tSlow}vw`
-    el.style.left   = `${rL   * (1 - tSlow)}vw`
+    const top    = Math.round(176 * (1 - tFast))
+    const bottom = Math.round(16  * (1 - tFast))
+    const horiz  = 14 * (1 - tSlow)
+    return `inset(${top}px ${horiz}vw ${bottom}px ${horiz}vw)`
   })
 
 
-  // Expanding platform: exact mirror of arrival morph, reversed direction.
-  // height + top use the fast 0.45 curve; width + left trail to 0.70 — identical ratios to arrival.
-  const expandTop    = useTransform(techMorph, v => `${(1 - clamp(v / 0.45, 0, 1)) * platformTopRef.current}vh`)
-  const expandLeft   = useTransform(techMorph, [0, 0.70], ['6vw',  '0vw'])
-  const expandWidth  = useTransform(techMorph, [0, 0.70], ['88vw', '100vw'])
-  const expandHeight = useTransform(techMorph, [0, 0.45], ['74vh', '100vh'])
+  // clip-path expand: outer wrapper is always inset-0 bg-black; clip-path opens from
+  // platform dims → fullscreen. Inner box stays at static platform dimensions so content
+  // lays out correctly (matches box 2 exactly) with zero CLS.
+  const expandClipPath = useTransform(
+    [techMorph, platformTopMV] as MotionValue<number>[],
+    ([morph, platTop]: number[]) => {
+      const tFast = clamp(morph / 0.45, 0, 1) // top + height timing
+      const tSlow = clamp(morph / 0.70, 0, 1) // left + width timing
+      const top    = platTop * (1 - tFast)
+      const bottom = (26 - platTop) * (1 - tFast) // 100 - 74 - platTop
+      const horiz  = 6 * (1 - tSlow)             // 6vw inset each side
+      return `inset(${top}vh ${horiz}vw ${bottom}vh ${horiz}vw)`
+    }
+  )
 
   // About Me fixed header: fades in on arrival, fades out only when the expansion begins
   const aboutHeaderFadeIn  = useTransform(scrollYProgress, [0.04, 0.08], [0, 1])
@@ -529,7 +523,7 @@ export function AboutExperienceSection() {
               { src: "/FiniteStateDark.png", label: "Finite State",    caption: "DFA/NFA playground for stepping through automata and regular expressions"          },
             ].map(({ src, label, caption }) => (
               <div key={src} className="group relative overflow-hidden border border-zinc-800 flex items-center justify-center bg-black">
-                <img src={src} alt={label} className="w-full h-full object-contain grayscale opacity-80" />
+                <Image src={src} alt={label} fill className="object-contain grayscale opacity-80" sizes="(max-width: 768px) 100vw, 44vw" />
                 <div className="absolute inset-x-0 bottom-0 bg-black/80 px-3 py-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
                   <p className="text-white/70 text-xs font-light text-center font-shippori leading-snug">{caption}</p>
                 </div>
@@ -546,7 +540,7 @@ export function AboutExperienceSection() {
                 className="relative h-full min-h-0"
               >
                 <div className="absolute inset-2 overflow-hidden border border-zinc-800">
-                  <img src="/NYCayaan.jpg" className="absolute inset-0 w-full h-full object-cover opacity-90" alt="NYC" />
+                  <Image src="/NYCayaan.jpg" fill className="object-cover opacity-90" alt="NYC" sizes="(max-width: 1024px) 88vw, 34vw" />
                 </div>
               </motion.div>
 
@@ -619,7 +613,7 @@ I'm also drawn to problems where the right answer isn't obvious—where prudent 
               {/* Image column */}
               <div className="relative h-full min-h-0">
                 <div className="absolute inset-2 overflow-hidden border border-zinc-800">
-                  <img src="/People.jpeg" className="absolute inset-0 w-full h-full object-cover object-[center_80%] opacity-90" alt="Friends" />
+                  <Image src="/People.jpeg" fill className="object-cover object-[center_80%] opacity-90" alt="Friends" sizes="(max-width: 1024px) 88vw, 34vw" />
                   <div className="absolute bottom-0.5 left-0.5 right-0.5 bg-black px-3 py-2 text-center">
                     <p className="text-base text-white/80 font-light font-shippori">Blessed to be able to surround myself with ambitious and kind people</p>
                   </div>
@@ -633,17 +627,22 @@ I'm also drawn to problems where the right answer isn't obvious—where prudent 
       {/* ── EXPANSION — sticky throughout: expansion, decrypt, card reveal, card scroll ── */}
       <div ref={techContainerRef} id="technical-experience" className="relative h-[180vh]">
         <div className="sticky top-0 h-screen w-full overflow-hidden">
-          {/* Platform: grows from platform dims → fullscreen */}
+          {/* Platform: clip-path expands from platform dims → fullscreen on bg-black wrapper.
+               Inner box is static at exact platform dimensions so content matches boxes 1 & 2. */}
           <motion.div
-            className="absolute z-30 bg-black overflow-hidden border border-zinc-700"
-            style={{ top: expandTop, left: expandLeft, width: expandWidth, height: expandHeight, boxShadow: WHITE_GLOW }}
+            className="absolute inset-0 z-30 bg-black"
+            style={{ clipPath: expandClipPath }}
           >
+            <div
+              className="absolute overflow-hidden"
+              style={{ top: 'calc(13vh + 82px)', left: '6vw', width: '88vw', height: '74vh' }}
+            >
             <motion.div className="absolute inset-0" style={{ opacity: screen3ContentOpacity }}>
               <div className="absolute inset-0 p-4 flex flex-col">
                 <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-5">
                   <div className="relative h-full min-h-0">
                     <div className="absolute inset-2 overflow-hidden border border-zinc-800">
-                      <img src="/MastesrPromotion.jpg" className="absolute inset-0 w-full h-full object-cover opacity-90" alt="Master's Promotion" />
+                      <Image src="/MastesrPromotion.jpg" fill className="object-cover opacity-90" alt="Master's Promotion" sizes="(max-width: 1024px) 88vw, 34vw" />
                       <div className="absolute bottom-0.5 left-0.5 right-0.5 bg-black px-3 py-2 text-center">
                         <p className="text-base text-white/80 font-light font-shippori">Me becoming a 99th percentile LoL player</p>
                       </div>
@@ -655,12 +654,13 @@ I'm also drawn to problems where the right answer isn't obvious—where prudent 
 
 Growing up playing League of Legends taught me so much, but this is my favorite thing it taught me. The knowledge that someone starting where I started has already done it is why I began learning Arabic despite how daunting it looked; it's why I started working out despite how impossibly far away being in shape felt; it's why I strive for excellence even when the goal looks far away. The uncertainty and behavioral reasoning that defined the game I loved is probably also why I ended up as someone always down for a game of poker.
 
-We're all more than our work, but through my work and beyond it, you'll learn that I'm a pragmatic idealist — ambitious, realistic, and relentless — and I think those traits go well together.`}
+We're all more than our work, but through my work and beyond it, you'll learn that I'm a highly adaptable, pragmatic idealist — ambitious, realistic, and relentless — and I think those traits go well together.`}
                     </p>
                   </div>
                 </div>
               </div>
             </motion.div>
+            </div>
           </motion.div>
 
         </div>
@@ -786,11 +786,15 @@ We're all more than our work, but through my work and beyond it, you'll learn th
       {/* marginTop: -100vh closes the layout gap left by the freeScrollSlideY transform */}
       <div ref={finalBoxContainerRef} id="contact" className="relative h-[220vh] bg-black" style={{ marginTop: '-100vh' }}>
         <div className="sticky top-0 h-screen overflow-hidden">
-          <div
-            ref={finalBoxRef}
-            className="absolute z-30 bg-black overflow-hidden border border-zinc-700"
-            style={{ top: '176px', left: '14vw', width: '72vw', height: 'calc(100vh - 192px)', transform: 'translateY(115%)', boxShadow: '0 0 40px 4px rgba(255,255,255,0.08), 0 0 80px 8px rgba(255,255,255,0.04)' }}
+          <motion.div
+            className="absolute inset-0 z-30 bg-black"
+            style={{ y: finalBoxSlideY, clipPath: finalBoxClipPath }}
           >
+            <motion.div className="absolute" style={{ top: '176px', left: '14vw', width: '72vw', height: 'calc(100vh - 192px)', opacity: skillsBoxOpacity }}>
+            <div
+              className="absolute inset-0 overflow-hidden border border-zinc-700"
+              style={{ boxShadow: '0 0 40px 4px rgba(255,255,255,0.08), 0 0 80px 8px rgba(255,255,255,0.04)' }}
+            >
             {/* ── Layer 1: Technical Skills (fades to black) ── */}
             <motion.div
               className="absolute inset-0 overflow-auto px-16 py-10"
@@ -820,10 +824,12 @@ We're all more than our work, but through my work and beyond it, you'll learn th
                 ))}
               </div>
             </motion.div>
+            </div>
+            </motion.div>{/* end skills box */}
 
-            {/* ── Layer 2: Contact background image (fades in, expands with box) ── */}
+            {/* ── Layer 2: Contact background image — snaps on at expansion start, IS the expansion ── */}
             <motion.div className="absolute inset-0" style={{ opacity: bgImageOpacity }}>
-              <img src="/ContactMeBackground.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
+              <Image src="/ContactMeBackground.webp" alt="" fill className="object-cover" sizes="100vw" />
               <div className="absolute inset-0 bg-black/35" />
             </motion.div>
 
@@ -916,7 +922,7 @@ We're all more than our work, but through my work and beyond it, you'll learn th
                 </div>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </div>
 

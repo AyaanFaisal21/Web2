@@ -19,7 +19,9 @@
       "Bash(curl -s https://www.abhigudeti.com/)",
       "Bash(curl -s https://www.abhigudeti.com/assets/index-CwUkkOgw.css)",
       "Bash(curl -s https://www.abhigudeti.com/assets/index-BOD-56i3.js)",
-      "Bash(sips -s format jpeg /Users/ayaanfaisal/Documents/Web4/media/LeftMostNEW2.heic --out /Users/ayaanfaisal/Documents/Web4/public/images/ayaan/hero-left-most-new.jpg)"
+      "Bash(sips -s format jpeg /Users/ayaanfaisal/Documents/Web4/media/LeftMostNEW2.heic --out /Users/ayaanfaisal/Documents/Web4/public/images/ayaan/hero-left-most-new.jpg)",
+      "Bash(sips --helpEntries)",
+      "Bash(sips -s format webp /Users/ayaanfaisal/Documents/Web4/public/ContactMeBackground.jpg --out /Users/ayaanfaisal/Documents/Web4/public/ContactMeBackground.webp)"
     ]
   }
 }

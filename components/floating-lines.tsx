@@ -332,25 +332,46 @@ export default function FloatingLines({
     }
 
     let raf = 0
-    const loop = () => {
-      uniforms.iTime.value = clock.getElapsedTime()
-      if (interactive) {
-        currentMouseRef.current.lerp(targetMouseRef.current, mouseDamping)
-        uniforms.iMouse.value.copy(currentMouseRef.current)
-        currentInfluenceRef.current += (targetInfluenceRef.current - currentInfluenceRef.current) * mouseDamping
-        uniforms.bendInfluence.value = currentInfluenceRef.current
+    let bgCovered = false
+
+    const tick = () => {
+      if (!bgCovered && !document.hidden) {
+        uniforms.iTime.value = clock.getElapsedTime()
+        if (interactive) {
+          currentMouseRef.current.lerp(targetMouseRef.current, mouseDamping)
+          uniforms.iMouse.value.copy(currentMouseRef.current)
+          currentInfluenceRef.current += (targetInfluenceRef.current - currentInfluenceRef.current) * mouseDamping
+          uniforms.bendInfluence.value = currentInfluenceRef.current
+        }
+        if (parallax) {
+          currentParallaxRef.current.lerp(targetParallaxRef.current, mouseDamping)
+          uniforms.parallaxOffset.value.copy(currentParallaxRef.current)
+        }
+        renderer.render(scene, camera)
       }
-      if (parallax) {
-        currentParallaxRef.current.lerp(targetParallaxRef.current, mouseDamping)
-        uniforms.parallaxOffset.value.copy(currentParallaxRef.current)
-      }
-      renderer.render(scene, camera)
-      raf = requestAnimationFrame(loop)
+      raf = requestAnimationFrame(tick)
     }
-    loop()
+    raf = requestAnimationFrame(tick)
+
+    // The expanding black box inside #technical-experience covers the background gradually
+    // over a 180vh scroll container. DOM position fires too early for IntersectionObserver,
+    // so we compute progress through the section and pause at 70% (box ~fullscreen).
+    const updateVisibility = () => {
+      const techEl = document.getElementById('technical-experience')
+      if (!techEl) { bgCovered = false; return }
+      const rect     = techEl.getBoundingClientRect()
+      const scrollable = rect.height - window.innerHeight
+      const progress   = scrollable > 0 ? -rect.top / scrollable : 0
+      bgCovered = progress > 0.7 || rect.bottom <= window.innerHeight
+    }
+
+    window.addEventListener('scroll', updateVisibility, { passive: true })
+    document.addEventListener('visibilitychange', () => { bgCovered = document.hidden })
+    updateVisibility()
 
     return () => {
       cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', updateVisibility)
       ro?.disconnect()
       if (interactive) {
         renderer.domElement.removeEventListener('pointermove', onMove)
