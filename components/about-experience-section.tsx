@@ -650,7 +650,7 @@ I'm also drawn to problems where the right answer isn't obvious—where prudent 
                   </div>
                   <div className="black-metal-panel p-8 rounded-none relative overflow-hidden flex flex-col justify-center min-h-0">
                     <p className="text-lg md:text-xl text-zinc-300 font-light leading-relaxed font-shippori whitespace-pre-wrap">
-{`"Somewhere out there, someone is better than me — that means I'm not done yet."
+{`"Somewhere out there, someone is better than me — that means I can definitely still improve."
 
 Growing up playing League of Legends taught me so much, but this is my favorite thing it taught me. The knowledge that someone starting where I started has already done it is why I began learning Arabic despite how daunting it looked; it's why I started working out despite how impossibly far away being in shape felt; it's why I strive for excellence even when the goal looks far away. The uncertainty and behavioral reasoning that defined the game I loved is probably also why I ended up as someone always down for a game of poker.
 
