@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"d:\\\\Users\\\\ayaan faisal\\\\Downloads\\\\ps1\\\\Web2\\\\Web2\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(npx tsc *)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/ayaanfaisal/Documents/Web4/media/NYCayaan.heic)",
+      "Bash(sips -s format jpeg /Users/ayaanfaisal/Documents/Web4/media/NYCayaan.heic --out /Users/ayaanfaisal/Documents/Web4/public/NYCayaan.jpg)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/ayaanfaisal/Documents/Web4/public/MastesrPromotion.jpg /Users/ayaanfaisal/Documents/Web4/public/People.jpeg /Users/ayaanfaisal/Documents/Web4/public/NYCayaan.jpg)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/ayaanfaisal/Documents/Web4/media/Sysdesign* /Users/ayaanfaisal/Documents/Web4/media/FiniteState* /Users/ayaanfaisal/Documents/Web4/media/NeuralNetwork* /Users/ayaanfaisal/Documents/Web4/media/VectorSearch*)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/ayaanfaisal/Documents/Web4/media/FiniteState.jpg /Users/ayaanfaisal/Documents/Web4/media/SysDesign.png /Users/ayaanfaisal/Documents/Web4/media/NeuralNetwork.png /Users/ayaanfaisal/Documents/Web4/media/VectorSearch.png)",
+      "Bash(sort -t/ -k6)",
+      "Bash(node -e \"const fonts = require\\('next/font/google'\\); console.log\\(Object.keys\\(fonts\\).filter\\(k => k.toLowerCase\\(\\).includes\\('ancizar'\\) || k.toLowerCase\\(\\).includes\\('unal'\\)\\)\\)\")",
+      "Bash(node -e \"try { const {Italiana} = require\\('next/font/google'\\); console.log\\('found'\\) } catch\\(e\\) { console.log\\(e.message\\) }\")",
+      "Bash(npm install *)",
+      "Bash(npm --version)",
+      "Bash(pnpm add *)",
+      "WebFetch(domain:www.abhigudeti.com)",
+      "Bash(curl -s https://www.abhigudeti.com/)",
+      "Bash(curl -s https://www.abhigudeti.com/assets/index-CwUkkOgw.css)",
+      "Bash(curl -s https://www.abhigudeti.com/assets/index-BOD-56i3.js)",
+      "Bash(sips -s format jpeg /Users/ayaanfaisal/Documents/Web4/media/LeftMostNEW2.heic --out /Users/ayaanfaisal/Documents/Web4/public/images/ayaan/hero-left-most-new.jpg)"
+    ]
+  }
+}
