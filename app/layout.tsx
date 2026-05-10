@@ -36,18 +36,18 @@ const italiana = Italiana({
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://ayaan-faisal.com'),
-    title: 'Ayaan Faisal — Software Engineer Portfolio',
-    description: 'Riding the intelligent-tech wave',
+    title: 'Ayaan Faisal — Intelligent Systems Designer & Software Engineer',
+    description: 'Innovator, Designer, and Engineer building human-centered technology; Explore AI memory systems, multi-agent swarms, data protection software, real-time backends, and tasteful, memorable frontends.',
     generator: 'v0.app',
     openGraph: {
-        title: 'Ayaan Faisal — Software Engineer Portfolio',
-        description: 'Riding the intelligent-tech wave',
+        title: 'Ayaan Faisal — Intelligent Systems Designer & Software Engineer',
+        description: 'Innovator, Designer, and Engineer building human-centered technology; Explore AI memory systems, multi-agent swarms, data protection software, real-time backends, and tasteful, memorable frontends.',
         images: [{ url: '/og-image.jpg', width: 1200, height: 630 }],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Ayaan Faisal — Software Engineer Portfolio',
-        description: 'Riding the intelligent-tech wave',
+        title: 'Ayaan Faisal — Intelligent Systems Designer & Software Engineer',
+        description: 'Innovator, Designer, and Engineer building human-centered technology; Explore AI memory systems, multi-agent swarms, data protection software, real-time backends, and tasteful, memorable frontends.',
         images: ['/og-image.jpg'],
     },
     icons: {
