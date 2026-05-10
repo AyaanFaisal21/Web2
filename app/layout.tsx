@@ -42,13 +42,13 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Ayaan Faisal — Software Engineer Portfolio',
         description: 'Riding the intelligent-tech wave',
-        images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+        images: [{ url: '/og-image.jpg', width: 1200, height: 630 }],
     },
     twitter: {
         card: 'summary_large_image',
         title: 'Ayaan Faisal — Software Engineer Portfolio',
         description: 'Riding the intelligent-tech wave',
-        images: ['/og-image.png'],
+        images: ['/og-image.jpg'],
     },
     icons: {
         icon: [
