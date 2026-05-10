@@ -35,6 +35,7 @@ const italiana = Italiana({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL('https://ayaan-faisal.com'),
     title: 'Ayaan Faisal — Software Engineer Portfolio',
     description: 'Riding the intelligent-tech wave',
     generator: 'v0.app',

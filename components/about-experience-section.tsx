@@ -153,16 +153,6 @@ const EXPERIENCES = [
     ],
   },
   {
-    role: 'Learning Assistant — Calculus II',
-    company: 'Rutgers University New Brunswick',
-    dates: 'Apr 2026 – Apr 2027',
-    bullets: [
-      'Support student understanding of multivariable calculus, sequences and series, and integral techniques by leading collaborative problem-solving sessions and translating abstract mathematical concepts into accessible, intuitive frameworks.',
-      'Bridge the gap between lecture and comprehension by identifying recurring points of confusion across students and developing targeted explanations that address conceptual gaps rather than surface-level procedure.',
-      'Collaborate with course instructors to align supplementary support with curriculum pacing, ensuring students build foundational fluency before advancing to more complex applications.',
-    ],
-  },
-  {
     role: 'Frontend Software Engineer',
     company: 'Freelance',
     dates: 'Jul 2025 – Present',
@@ -171,6 +161,16 @@ const EXPERIENCES = [
       'Instrumented a custom Three.js WebGL renderer with Chrome DevTools, identifying a requestAnimationFrame loop consuming **722ms** of GPU self-time; reduced tick self-time by **65%** (**722ms → 255ms**) through scroll-progress-based render gating.',
       'Eliminated a CLS score of **1.49**, nearly **15×** over Google\'s "Good" threshold, by migrating scroll-driven panels from layout-property animations to compositor-only transforms, achieving **100%** CLS reduction site-wide with zero INP regression.',
       'Reduced image payload by **89%** on the primary background asset (**6.7MB → 716KB**) via JPEG-to-WebP conversion and re-enabling Next.js image optimization, cutting estimated per-session bandwidth by over **90%**.',
+    ],
+  },
+  {
+    role: 'Learning Assistant — Calculus II',
+    company: 'Rutgers University New Brunswick',
+    dates: 'Apr 2026 – Apr 2027',
+    bullets: [
+      'Support student understanding of multivariable calculus, sequences and series, and integral techniques by leading collaborative problem-solving sessions and translating abstract mathematical concepts into accessible, intuitive frameworks.',
+      'Bridge the gap between lecture and comprehension by identifying recurring points of confusion across students and developing targeted explanations that address conceptual gaps rather than surface-level procedure.',
+      'Collaborate with course instructors to align supplementary support with curriculum pacing, ensuring students build foundational fluency before advancing to more complex applications.',
     ],
   },
   {
@@ -887,7 +887,7 @@ We're all more than our work, but through my work and beyond it, you'll learn th
                 className="shrink-0 text-center pointer-events-none select-none"
                 style={{
                   fontFamily: 'var(--font-italiana)',
-                  color: '#c78348',
+                  color: '#d6bb6a',
                   fontSize: 'clamp(3rem, 10vw, 10rem)',
                   lineHeight: 0.95,
                   paddingTop: '4.5rem',
