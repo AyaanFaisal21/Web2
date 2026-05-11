@@ -35,7 +35,7 @@ const socialLinks = [
   { href: 'https://github.com/AyaanFaisal21',           label: 'GitHub',   Icon: Github,   showLabel: false },
   { href: 'https://www.linkedin.com/in/ayaan--faisal/', label: 'LinkedIn', Icon: Linkedin, showLabel: false },
   { href: 'https://x.com/unorth_doX',                   label: 'X',        Icon: XIcon,    showLabel: false },
-  { href: 'https://drive.google.com/file/d/1YlFZ2yfEy-JGCcJILHNbhr3OIvMAnZb9/view?usp=sharing', label: 'Resume', Icon: FileText, showLabel: true },
+  { href: 'https://drive.google.com/file/d/1hoVqAheshOm7JHhJLn57rU0mrMlgSXrX/view?usp=sharing', label: 'Resume', Icon: FileText, showLabel: true },
 ]
 
 const baseGlow   = { color: '#fff', textShadow: '0 0 10px rgba(255,255,255,0.85)' }

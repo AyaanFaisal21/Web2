@@ -1007,7 +1007,7 @@ We're all more than our work, but through my work and beyond it, you'll learn th
                       className="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 font-shippori text-xs tracking-wide">
                       <XIcon size={14} /> X
                     </a>
-                    <a href="https://drive.google.com/file/d/1YlFZ2yfEy-JGCcJILHNbhr3OIvMAnZb9/view?usp=sharing" target="_blank" rel="noopener noreferrer"
+                    <a href="https://drive.google.com/file/d/1hoVqAheshOm7JHhJLn57rU0mrMlgSXrX/view?usp=sharing" target="_blank" rel="noopener noreferrer"
                       className="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 font-shippori text-xs tracking-wide">
                       <FileText size={14} /> Resume
                     </a>
