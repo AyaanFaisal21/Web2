@@ -1,3 +1,34 @@
+/**
+ * AboutExperienceSection
+ *
+ * The primary content section of the portfolio, spanning roughly 1800vh of scroll space and
+ * organized into five sequential scroll-driven phases, all choreographed through a single
+ * Framer Motion useScroll pipeline against the outer section container:
+ *
+ *   1. About Me  — three portrait boxes cross-fade and slide into view with a word-wheel
+ *      rotating through personal descriptors, driven by `aboutProgress` (0–1).
+ *   2. Experience — the expanded experience panel (Panel 0, 6 entries) fades in over a
+ *      background that cross-fades to the compressed panel (Panel 1, 4 EXPERIENCES), driven by
+ *      `expandedMV` and `techHeaderOpacity`.
+ *   3. Projects  — a two-column masonry layout (CSS `columns: 2`) of six project cards with
+ *      live previews, fading in below the experience list.
+ *   4. Skills box — a centered resting box fades in showing skills/stack badges before the
+ *      final expansion begins. The contact background image starts fading in here at partial
+ *      opacity (0.65) while the box is still at its resting dimensions.
+ *   5. Contact   — `finalBoxClipPath` animates from the resting-box inset to `inset(0 0 0 0)`
+ *      (fullscreen) using a compositor-only clip-path, avoiding any layout recalculation (CLS 0).
+ *      The background image opacity ramps to 1.0 simultaneously, revealing the full contact form.
+ *
+ * Key rendering decisions:
+ * - `clip-path: inset(...)` replaces all layout-property animations (top/left/width/height)
+ *   so the browser never triggers a layout pass during scroll — CLS measured at 0.00 site-wide.
+ * - `renderBullet()` parses `**text**` markers in experience entry strings into <strong> tags.
+ * - `EXPANDED_ONLY_EXPERIENCES` are appended only in Panel 0 (the expanded view) so weaker
+ *   entries don't appear in the default compressed experience list.
+ * - Fixed px values (`176px`, `82px`) in the skills-box clip math and inner content positioning
+ *   are the one area that doesn't scale proportionally at very different absolute resolutions
+ *   (e.g., 4K vs. 1080p at the same aspect ratio).
+ */
 "use client"
 
 import { useRef, useState, useEffect } from "react"
@@ -211,10 +242,11 @@ const EXPANDED_ONLY_EXPERIENCES = [
 const TECH_PROJECTS = [
   {
     id: 'pokermind',
-    title: 'PokerMind AI — Multi-Agent Decision System (Incomplete)',
+    title: 'PokerMind AI — Multi-Agent Decision System (In Development)',
     tags: ['Python', 'LangGraph', 'Claude API', 'CrewAI', 'Playwright', 'PostgreSQL', 'Redis', 'Docker', 'AWS ECS', 'Grafana', 'scikit-learn'],
     description: 'A behavioral AI research system built around a genuinely hard problem: what does it take for an autonomous agent to play poker indistinguishably from a human? Deterministic strategy is table stakes — the deeper challenge is defeating bot-detection heuristics that fingerprint agents on action-timing regularity, bet-sizing quantization, and decision-tree periodicity. PokerMind uses a council-of-agents architecture: four LLM microservices (Strategist, Historian, Humanizer, Orchestrator) debate each action before it\'s committed. A behavioral evasion subsystem samples timing jitter, deliberate errors, and fatigue patterns from learned human priors. Deployed on AWS ECS with Redis message brokering and a Grafana observability layer.',
     image: '/AgentSwarm.png',
+    githubUrl: 'https://github.com/AyaanFaisal21/PokerMindAI',
   },
   {
     id: 'fantasy-stocks',
@@ -222,6 +254,7 @@ const TECH_PROJECTS = [
     tags: ['React', 'FastAPI', 'PostgreSQL', 'WebSockets', 'AsyncIO', 'Pandas', 'Supabase'],
     description: 'The stock market is a lot less intimidating when it\'s a game. Fantasy Stocks lets you draft real companies like sports picks, join private leagues, and compete on actual market performance — built for the curious, not-yet-committed investor who wants a reason to care about tickers. Real-time drafts, weekly head-to-head matchups, and a live leaderboard make the learning feel like winning.',
     image: '/FantasyStocks.webp',
+    githubUrl: 'https://github.com/AaravL/FantasyStocks',
   },
   {
     id: 'sage',
@@ -229,6 +262,7 @@ const TECH_PROJECTS = [
     tags: ['TypeScript', 'Node.js', 'Gemini API', 'Voyage AI', 'Chroma', 'Photon SDK'],
     description: 'Most group-chat bots are noise. Sage is an AI that lives inside your iMessage group and speaks fewer than 1 in 10 messages — only when it has something real to say. It answers @mentions like a friend who was there, surfaces unresolved tension when the group goes quiet, and intervenes when someone contradicts or forgets a detail established earlier in the conversation. That last behavior hints at something bigger: in large organizations where teams move fast and context gets lost, an agent with real memory could quietly prevent the kind of drift that causes costly misalignment. Built for HackPrinceton\'s Agents in iMessage track.',
     image: '/sageNEW.jpg',
+    githubUrl: 'https://github.com/AyaanFaisal21/HackPrincetonS25',
   },
   {
     id: 'skindex',
@@ -236,6 +270,7 @@ const TECH_PROJECTS = [
     tags: ['PyTorch', 'ONNX', 'Flask', 'React', 'Vite', 'SQLite', 'JWT'],
     description: 'Googling your symptoms is stressful. A clinic visit for a minor skin concern feels like too much. Skindex sits in between — snap a photo, and it classifies the condition across 10 categories with urgency levels that tell you whether to monitor it, treat it at home, or actually see a doctor. An onboard assistant handles follow-up questions. Informational support, not a diagnosis.',
     image: '/Skinndex.jpg',
+    githubUrl: 'https://github.com/KrishLenka/Skindex-HackRUF25',
   },
   {
     id: 'poli',
@@ -243,6 +278,7 @@ const TECH_PROJECTS = [
     tags: ['FastAPI', 'Pydantic', 'GPT-3.5', 'BeautifulSoup', 'React'],
     description: 'A conversational platform for analyzing bias in any casual written work — news articles, blogs, opinion pieces, social media posts, political speeches. Built on the principle that truly neutral text requires no adjectives, since descriptive language is the primary vehicle through which bias enters writing. Fixates on adjective usage alongside broader linguistic patterns to score content across three dimensions: extremity, subjectivity, and factual accuracy, each rated out of 10. Motivated by a personal experiment confirming how algorithm-driven feeds create ideological echo chambers. FastAPI backend with Pydantic validation and GPT-3.5 for structured JSON analysis, a BeautifulSoup scraping layer for direct URL ingestion, and a React frontend with a chat-based interface and SVG rating visualizations.',
     image: '/Poli.jpg',
+    githubUrl: 'https://github.com/KrishLenka/hackru25spring',
   },
   {
     id: 'car-deal-predictor',
@@ -250,6 +286,7 @@ const TECH_PROJECTS = [
     tags: ['R', 'XGBoost', 'Random Forest', 'Ensemble Learning'],
     description: 'Built a classification model in R to rate used-car deals across 10,000 listings from Dubai, achieving 92% cross-validation accuracy with XGBoost. Engineered features capturing hidden relationships between price, mileage, and benchmark value, reducing multicollinearity and improving validation accuracy by 4%. Closed a 4–5% overfitting gap through 5-fold cross-validation, model stacking, and probability-based ensembling to ensure performance held on unseen data.',
     image: '/CarDeal.jpeg',
+    githubUrl: 'https://github.com/AyaanFaisal21/Car-Deal-Predictor',
   },
 ]
 const N_DISPLAY = 4
@@ -301,7 +338,7 @@ function ExperienceCard({ role, company, dates, bullets }: typeof EXPERIENCES[0]
   )
 }
 
-function ProjectCard({ title, tags, description, image }: typeof TECH_PROJECTS[0]) {
+function ProjectCard({ title, tags, description, image, githubUrl }: typeof TECH_PROJECTS[0]) {
   return (
     <div className="border border-zinc-700 bg-black overflow-hidden flex flex-col" style={cardGlow}>
       <div className="p-7 flex flex-col gap-3">
@@ -322,6 +359,18 @@ function ProjectCard({ title, tags, description, image }: typeof TECH_PROJECTS[0
       </div>
       <div className="relative h-36 border-t border-zinc-700 flex-shrink-0">
         <Image src={image} alt={title} fill className="object-cover grayscale opacity-50" sizes="(max-width: 768px) 100vw, 50vw" />
+        {githubUrl && (
+          <a
+            href={githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute bottom-2.5 right-2.5 flex items-center justify-center w-8 h-8 rounded border border-white/20 bg-black/55 transition-colors duration-200 hover:bg-black/75 hover:border-white/40"
+            style={{ backdropFilter: 'blur(4px)' }}
+            aria-label="View on GitHub"
+          >
+            <Github size={14} className="text-white" style={{ filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.7))' }} />
+          </a>
+        )}
       </div>
     </div>
   )
@@ -958,7 +1007,7 @@ We're all more than our work, but through my work and beyond it, you'll learn th
                       className="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 font-shippori text-xs tracking-wide">
                       <XIcon size={14} /> X
                     </a>
-                    <a href="/resume" target="_blank" rel="noopener noreferrer"
+                    <a href="https://drive.google.com/file/d/1YlFZ2yfEy-JGCcJILHNbhr3OIvMAnZb9/view?usp=sharing" target="_blank" rel="noopener noreferrer"
                       className="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 font-shippori text-xs tracking-wide">
                       <FileText size={14} /> Resume
                     </a>

@@ -1,3 +1,24 @@
+/**
+ * FloatingLines
+ *
+ * A raw Three.js WebGL renderer that draws animated sine-wave line clusters across a fullscreen
+ * orthographic quad. The visual is entirely GLSL-driven: three independently configurable wave
+ * clusters (top/middle/bottom) each loop over N line strips, applying per-line color from a
+ * gradient palette and a traveling dark-void pulse effect. Optional features — mouse bend
+ * interaction, parallax offset, and multi-stop color gradients — are toggled via props and
+ * passed as GLSL uniforms without any JS-side per-frame math beyond lerp damping.
+ *
+ * Performance design: the RAF loop checks a `bgCovered` boolean before calling
+ * renderer.render(). This flag is set by a passive scroll listener that computes scroll
+ * progress through the #technical-experience section; when the expanding black panel covers
+ * ~70% of the viewport, rendering is fully skipped (GPU cost drops to zero) while the RAF
+ * itself stays alive to avoid start/stop race conditions. Page Visibility API also suppresses
+ * rendering on tab-switch. Canvas dimensions are kept current by a ResizeObserver that calls
+ * renderer.setSize() and updates the iResolution uniform, making it fully responsive.
+ *
+ * This component is a reusable primitive; site-specific configuration is applied in
+ * FloatingPathsBackground.
+ */
 'use client'
 
 import { useEffect, useRef } from 'react'

@@ -1,3 +1,16 @@
+/**
+ * HeroSection
+ *
+ * The opening full-screen section of the portfolio. Occupies 300vh of scroll space and
+ * uses a sticky bento-grid layout to create a cinematic reveal: the center portrait starts
+ * at full width and gently zoomed in, then — as the user scrolls — four side photos slide in
+ * from off-screen while the center column shrinks to expose them. Scroll progress is driven
+ * by Framer Motion's useScroll/useSpring pipeline against the section container, keeping all
+ * transforms on the compositor thread. Text ("AYAAN") is overlaid at a fixed position with a
+ * per-letter blur-fade entrance, then fades out as scrolling begins (Phase A: 0→0.2 of smooth
+ * progress). All sizing is viewport-relative (%, vw, clamp) so the layout holds at any
+ * resolution within the same aspect ratio.
+ */
 'use client'
 
 import { useRef } from 'react'

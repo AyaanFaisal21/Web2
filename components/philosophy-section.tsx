@@ -1,3 +1,17 @@
+/**
+ * PhilosophySection
+ *
+ * The bridge section between HeroSection and AboutExperienceSection. Renders two sequential
+ * scroll-driven effects inside a single bg-black block: (1) a 200vh sticky panel where three
+ * rotating headline phrases flip in one by one via 3D rotateX transforms, driven by raw scroll
+ * progress calculated via getBoundingClientRect(); and (2) a word-by-word blur-reveal paragraph
+ * that animates as the description scrolls into view. Both effects use a manual RAF-gated scroll
+ * listener rather than Framer Motion MotionValues, which avoids re-render cost — opacity and
+ * transform are applied inline from setState only on visible animation frames. Font sizes are
+ * all viewport-relative (vw units with responsive breakpoints), so the layout scales cleanly
+ * across resolutions. PHILOSOPHY_DESCRIPTION is exported so other components (e.g., meta tags
+ * or an About modal) can reference the canonical text without duplication.
+ */
 "use client"
 
 import { useRef, useCallback, useEffect, useState } from "react"

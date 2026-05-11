@@ -1,3 +1,16 @@
+/**
+ * HeroHeader
+ *
+ * The site-wide fixed navigation bar. Renders as two floating pill-shaped containers at the
+ * top-center of the viewport (z-50): a main bar with the logo, section nav links, and a
+ * Contact button; and a social-links bar (desktop-only) for GitHub, LinkedIn, X, and Resume.
+ * On mobile the nav collapses behind a hamburger into a full dropdown. Scroll position is
+ * tracked via a passive scroll listener that maps section element positions to an activeSection
+ * string, applying a glow+border highlight to the matching nav button. Navigation uses Lenis
+ * smooth-scroll (via useLenis) with manually tuned per-section offsets to land the viewport
+ * at the visually intended entry point for each section, falling back to native scrollIntoView
+ * when Lenis is unavailable.
+ */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -22,7 +35,7 @@ const socialLinks = [
   { href: 'https://github.com/AyaanFaisal21',           label: 'GitHub',   Icon: Github,   showLabel: false },
   { href: 'https://www.linkedin.com/in/ayaan--faisal/', label: 'LinkedIn', Icon: Linkedin, showLabel: false },
   { href: 'https://x.com/unorth_doX',                   label: 'X',        Icon: XIcon,    showLabel: false },
-  { href: '/resume',                                     label: 'Resume',   Icon: FileText, showLabel: true  },
+  { href: 'https://drive.google.com/file/d/1YlFZ2yfEy-JGCcJILHNbhr3OIvMAnZb9/view?usp=sharing', label: 'Resume', Icon: FileText, showLabel: true },
 ]
 
 const baseGlow   = { color: '#fff', textShadow: '0 0 10px rgba(255,255,255,0.85)' }
