@@ -206,7 +206,7 @@ const EXPERIENCES = [
   },
   {
     role: 'Executive Board Member',
-    company: 'Muslim Tech Collaborative, Rutgers',
+    company: 'Cultural Tech Collaborative, Rutgers',
     dates: 'Dec 2025 – Present',
     bullets: [
       'Co-coordinated a hackathon featuring **$4,000+** in prizes and meaningful industry participation, managing logistics, partner communication, and attendee experience.',
@@ -219,7 +219,7 @@ const EXPERIENCES = [
 const EXPANDED_ONLY_EXPERIENCES = [
   {
     role: 'Officer & Fundraiser Lead',
-    company: 'Muslim Student Association, WWP-HSN',
+    company: 'Cultural Student Association, WWP-HSN',
     dates: 'Sept 2023 – June 2024',
     bullets: [
       'Transformed a fundraiser rejection into approval by mapping admin concerns into constraints, reframing the pitch, and securing sign-off — ultimately engaging 100+ donors and raising $1,000 for humanitarian aid.',

@@ -17,10 +17,10 @@ import { useRef } from 'react'
 import { motion, useScroll, useSpring, useTransform } from 'motion/react'
 
 const sideImages = [
-  { src: '/images/ayaan/hero-left-inner.jpg',  alt: 'Hero Left',        position: 'left'  as const },
+  { src: '/images/ayaan/Petra.jpg',            alt: 'Petra',            position: 'left'  as const },
   { src: '/images/ayaan/hero-left-most.jpeg',  alt: 'Hero Left Outer',  position: 'left'  as const },
   { src: '/images/ayaan/hero-right-most.jpeg', alt: 'Hero Right Outer', position: 'right' as const },
-  { src: '/images/ayaan/hero-right-heic.jpg',  alt: 'Hero Right',       position: 'right' as const },
+  { src: '/images/ayaan/Hallway.jpg',          alt: 'Hallway',          position: 'right' as const },
 ]
 
 const heroImageSrc = '/images/ayaan/mainBackground.jpg'
@@ -49,8 +49,8 @@ export default function HeroSection() {
   const sideSlideRight = useTransform(imageProgress, v => `${100 - v * 100}%`)
 
   // Vertical stagger for side panels (outer panels shift up more)
-  const outerStaggerY  = useTransform(imageProgress, [0, 1], ['0%', '-5%'])
-  const innerStaggerY  = useTransform(imageProgress, [0, 1], ['0%', '-2.5%'])
+  const outerStaggerY  = useTransform(imageProgress, [0, 1], ['0%', '-3%'])
+  const innerStaggerY  = useTransform(imageProgress, [0, 1], ['0%', '-1.5%'])
 
   // Center image slightly zoomed at start → normal as panels expand
   const heroImageScale = useTransform(imageProgress, v => 1 + (1 - v) * 0.12)
