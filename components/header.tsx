@@ -33,9 +33,9 @@ const navLinks = [
 
 const socialLinks = [
   { href: 'https://github.com/AyaanFaisal21',           label: 'GitHub',   Icon: Github,   showLabel: false },
-  { href: 'https://www.linkedin.com/in/ayaan--faisal/', label: 'LinkedIn', Icon: Linkedin, showLabel: false },
+  { href: 'https://www.linkedin.com/in/ayaanfaisal21/', label: 'LinkedIn', Icon: Linkedin, showLabel: false },
   { href: 'https://x.com/unorth_doX',                   label: 'X',        Icon: XIcon,    showLabel: false },
-  { href: 'https://drive.google.com/file/d/1d6cQNKtWHHVqVeJmOwB9dcu--Ur9hknN/view?usp=sharing', label: 'Resume', Icon: FileText, showLabel: true },
+  { href: 'https://drive.google.com/file/d/139lJn3_8caRHtZbu62m21gOkHSnOi0kh/view?usp=sharing', label: 'Resume', Icon: FileText, showLabel: true },
 ]
 
 const baseGlow   = { color: '#fff', textShadow: '0 0 10px rgba(255,255,255,0.85)' }

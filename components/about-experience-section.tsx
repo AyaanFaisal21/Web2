@@ -174,24 +174,15 @@ function DecryptingHeader({ text, progress, active = false }: { text: string; pr
 const EXPERIENCES = [
   {
     role: 'Lead Software Engineer',
-    company: 'Early Stage Data Protection Startup',
-    dates: 'Apr 2026 – Present',
+    company: 'Privet',
+    dates: 'Mar 2026 – Present',
+    previewImage: '',
+    previewUrl: 'https://get-privet.com',
+    description: "Privet is a local privacy layer for people using AI with sensitive data — accountants, lawyers, financial advisors, pharmacists, and founders who need LLMs but can't risk sending client information to 3rd parties. It runs as a proxy on your machine, intercepting outbound prompts to make sure nothing sensitive ever leaves the device. See [get-privet.com](https://get-privet.com).",
     bullets: [
-      'Architected a locally-running Rust/Tokio HTTPS interception proxy with custom TLS termination via a device-bound CA, routing **100%** of outbound LLM traffic through a detection pipeline without modifying provider authentication or breaking streaming SSE protocols.',
-      'Engineered a two-layer sensitive data detection system combining regex/NER pattern matching with a locally-hosted quantized Phi-3-mini model (Q4_K_M, **<500MB** RAM), achieving **sub-150ms** end-to-end sanitization latency on CPU-only hardware across OpenAI, Anthropic, and Google Gemini endpoints.',
-      'Built an encrypted local vault using SQLite/SQLCipher with OS keychain key derivation to store sensitive-to-placeholder mappings, enabling full response reconstruction without any client data crossing the network boundary.',
-      'Designed a tamper-evident audit logging system capturing per-prompt detection metadata (categories, confidence scores, SHA-256 prompt hashes) with **0** sensitive data retained, producing compliance-exportable records of all AI-assisted interactions.',
-    ],
-  },
-  {
-    role: 'Frontend Software Engineer',
-    company: 'Freelance',
-    dates: 'Jul 2025 – Present',
-    bullets: [
-      'Designed and shipped tasteful, visually intensive web experiences featuring WebGL shaders, physics simulations, and scroll-driven animations, achieving Lighthouse scores **>90** across audited categories, validated through Chrome DevTools performance audits.',
-      'Instrumented a custom Three.js WebGL renderer with Chrome DevTools, identifying a requestAnimationFrame loop consuming **722ms** of GPU self-time; reduced tick self-time by **65%** (**722ms → 255ms**) through scroll-progress-based render gating.',
-      'Eliminated a CLS score of **1.49**, nearly **15×** over Google\'s "Good" threshold, by migrating scroll-driven panels from layout-property animations to compositor-only transforms, achieving **100%** CLS reduction site-wide with zero INP regression.',
-      'Reduced image payload by **89%** on the primary background asset (**6.7MB → 716KB**) via JPEG-to-WebP conversion and re-enabling Next.js image optimization, cutting estimated per-session bandwidth by over **90%**.',
+      'Routed **100%** of outbound LLM traffic through a full-stack detection pipeline by building a Rust/Tokio HTTPS proxy with custom TLS termination, preserving provider authentication and streaming SSE support.',
+      'Achieved **under 150ms** sanitization latency on CPU-only hardware by engineering a two-layer detection system combining regex and NER pattern matching with a quantized Phi-3-mini model using less than **500MB** RAM.',
+      'Prevented client data from crossing the network boundary by building an SQLCipher-encrypted vault with OS keychain key derivation and a tamper-evident audit log storing **zero** sensitive data.',
     ],
   },
   {
@@ -206,12 +197,25 @@ const EXPERIENCES = [
   },
   {
     role: 'Executive Board Member',
-    company: 'Cultural Tech Collaborative, Rutgers',
+    company: 'Muslim Tech Collaborative, Rutgers',
     dates: 'Dec 2025 – Present',
+    previewImage: '',
+    previewUrl: 'https://mtc.so/',
+    description: 'Muslim Tech Collaborative is a Rutgers student organization that builds bridges between the campus tech community and outside industry. Joined the founding team in its first year to help run hackathons, develop recruiting events, and architect a startup-immersion program (Forge) that places students into real workplaces. As an executive board member, I help shape program direction and run logistics for events that bring industry recruiters and engineers onto campus. See [mtc.so](https://mtc.so/).',
     bullets: [
       'Co-coordinated a hackathon featuring **$4,000+** in prizes and meaningful industry participation, managing logistics, partner communication, and attendee experience.',
       'Organized a career networking event connecting **70** students with **10** professionals, navigating outreach and positioning in a campus environment dense with competing events.',
       'Partnered with student leaders and external professionals to expand access to mentorship and career opportunities in tech.',
+    ],
+  },
+  {
+    role: 'Frontend Software Engineer',
+    company: 'Freelance',
+    dates: 'Jul 2025 – Mar 2026',
+    bullets: [
+      'Built premium web experiences using advanced frontend engineering tools, achieving Lighthouse scores over **90** across audited categories.',
+      'Reduced CPU rendering workload by **65%** by identifying a costly 3D animation loop and applying scroll-progress-based render gating.',
+      'Achieved **99%** CLS reduction site-wide with **0** INP regression by replacing layout-property animations with compositor-only transforms.',
     ],
   },
 ]
@@ -219,7 +223,7 @@ const EXPERIENCES = [
 const EXPANDED_ONLY_EXPERIENCES = [
   {
     role: 'Officer & Fundraiser Lead',
-    company: 'Cultural Student Association, WWP-HSN',
+    company: 'Muslim Student Association, WWP-HSN',
     dates: 'Sept 2023 – June 2024',
     bullets: [
       'Transformed a fundraiser rejection into approval by mapping admin concerns into constraints, reframing the pitch, and securing sign-off — ultimately engaging 100+ donors and raising $1,000 for humanitarian aid.',
@@ -244,7 +248,7 @@ const TECH_PROJECTS = [
     id: 'pokermind',
     title: 'PokerMind AI — Multi-Agent Decision System (In Development)',
     tags: ['Python', 'LangGraph', 'Claude API', 'CrewAI', 'Playwright', 'PostgreSQL', 'Redis', 'Docker', 'AWS ECS', 'Grafana', 'scikit-learn'],
-    description: 'A behavioral AI research system built around a genuinely hard problem: what does it take for an autonomous agent to play poker indistinguishably from a human? Deterministic strategy is table stakes — the deeper challenge is defeating bot-detection heuristics that fingerprint agents on action-timing regularity, bet-sizing quantization, and decision-tree periodicity. PokerMind uses a council-of-agents architecture: four LLM microservices (Strategist, Historian, Humanizer, Orchestrator) debate each action before it\'s committed. A behavioral evasion subsystem samples timing jitter, deliberate errors, and fatigue patterns from learned human priors. Deployed on AWS ECS with Redis message brokering and a Grafana observability layer.',
+    description: 'A behavioral AI research system built around a genuinely hard problem: what does it take for an autonomous agent to play poker indistinguishably from a human? The nuanced challenge here is defeating bot-detection heuristics that fingerprint agents on action-timing regularity, bet-sizing quantization, and decision-tree periodicity. PokerMind uses a council-of-agents architecture: four LLM microservices (Strategist, Historian, Humanizer, Orchestrator) debate each action before it\'s committed. A behavioral evasion subsystem samples timing jitter, deliberate errors, and fatigue patterns from learned human priors. Deployed on AWS ECS with Redis message brokering and a Grafana observability layer.',
     image: '/AgentSwarm.png',
     githubUrl: 'https://github.com/AyaanFaisal21/PokerMindAI',
   },
@@ -252,8 +256,10 @@ const TECH_PROJECTS = [
     id: 'fantasy-stocks',
     title: 'Fantasy Stocks',
     tags: ['React', 'FastAPI', 'PostgreSQL', 'WebSockets', 'AsyncIO', 'Pandas', 'Supabase'],
-    description: 'The stock market is a lot less intimidating when it\'s a game. Fantasy Stocks lets you draft real companies like sports picks, join private leagues, and compete on actual market performance — built for the curious, not-yet-committed investor who wants a reason to care about tickers. Real-time drafts, weekly head-to-head matchups, and a live leaderboard make the learning feel like winning.',
-    image: '/FantasyStocks.webp',
+    description: 'The stock market is a lot less intimidating when it\'s a game. Fantasy Stocks lets you draft real companies like sports picks, join private leagues, and compete on actual market performance — built for the curious, not-yet-committed investor who wants a reason to care about tickers. Real-time drafts, weekly head-to-head matchups, and a live leaderboard make the learning feel like winning. See [fantok.vercel.app](https://fantok.vercel.app).',
+    image: '/FantasyStocksColor.jpg',
+    colorImage: true,
+    projectUrl: 'https://fantok.vercel.app',
     githubUrl: 'https://github.com/AaravL/FantasyStocks',
   },
   {
@@ -288,14 +294,22 @@ const TECH_PROJECTS = [
     image: '/CarDeal.jpeg',
     githubUrl: 'https://github.com/AyaanFaisal21/Car-Deal-Predictor',
   },
+  {
+    id: 'tcp-game-server',
+    title: 'TCP Multiplayer Game Server',
+    tags: ['C', 'POSIX Sockets', 'Pthreads', 'select()', 'Bash'],
+    description: 'A multiplayer game server written in C that handles two concurrent TCP clients playing against each other in real time. The server manages player registration, matchmaking, turn coordination, and graceful handling of mid-game disconnects — all while treating the TCP socket as the raw byte stream it actually is, rather than assuming messages arrive in clean chunks. Under the hood, the server uses exact-length recv() framing to reconstruct messages from partial reads, a mutex-protected FIFO queue to make player registration race-safe under concurrent connections, and select() inside the game loop to monitor both players simultaneously so early moves and disconnects are caught without blocking on turn order. Pthreads handle per-game concurrency.',
+    image: '',
+  },
 ]
 const N_DISPLAY = 4
 
 const SKILLS = [
-  { category: 'Programming Languages', items: ['Python', 'TypeScript', 'JavaScript', 'Java', 'R', 'C', 'SQL', 'HTML/CSS'] },
-  { category: 'ML, AI & Data',          items: ['PyTorch', 'ONNX', 'TensorFlow', 'Pandas', 'NumPy', 'Jupyter', 'XGBoost', 'Chroma', 'Voyage AI', 'Gemini API', 'OpenAI API'] },
-  { category: 'Backend & Infrastructure', items: ['FastAPI', 'Flask', 'Node.js', 'Express', 'WebSockets', 'AsyncIO', 'PostgreSQL', 'SQLite', 'Supabase', 'REST APIs', 'Pydantic', 'JWT Auth', 'Git', 'Unix'] },
-  { category: 'Frontend',               items: ['React', 'Vite', 'Tailwind CSS', 'React Context'] },
+  { category: 'Languages',                items: ['Python', 'Rust', 'C', 'C++', 'Java', 'TypeScript', 'JavaScript', 'SQL', 'R', 'Swift'] },
+  { category: 'Systems & Infrastructure', items: ['Tokio', 'Hyper', 'Docker', 'Git', 'GitHub Actions', 'AWS EC2', 'Caddy', 'Linux/Unix', 'POSIX Sockets', 'Pthreads'] },
+  { category: 'Backend & Data',           items: ['FastAPI', 'Node.js', 'PostgreSQL', 'SQLite', 'Supabase', 'WebSockets', 'AsyncIO', 'SQLCipher', 'Aho-Corasick', 'RegexSet'] },
+  { category: 'ML & AI',                  items: ['PyTorch', 'scikit-learn', 'ONNX', 'Chroma', 'Vector Search', 'Embeddings', 'Pandas', 'NumPy', 'XGBoost'] },
+  { category: 'Frontend',                 items: ['React', 'Vite', 'Tailwind', 'WebGL', 'Next.js', 'Three.js'] },
 ]
 
 function clamp(v: number, lo: number, hi: number) { return Math.max(lo, Math.min(hi, v)) }
@@ -310,35 +324,77 @@ function renderBullet(text: string) {
   )
 }
 
+// Splits on [text](url) markdown links and renders matches as glowing white inline anchors
+const LINK_RE = /(\[[^\]]+\]\([^)]+\))/g
+function renderDescription(text: string) {
+  return text.split(LINK_RE).map((part, i) => {
+    const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
+    if (!m) return part
+    const [, label, href] = m
+    return (
+      <a
+        key={i}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-white font-medium transition-all duration-200 hover:brightness-125"
+        style={{ textShadow: '0 0 10px rgba(255,255,255,0.85), 0 0 22px rgba(255,255,255,0.45)' }}
+      >
+        {label}
+      </a>
+    )
+  })
+}
+
 const WHITE_GLOW = '0 0 40px 4px rgba(255,255,255,0.08), 0 0 80px 8px rgba(255,255,255,0.04)'
 const cardGlow = { boxShadow: WHITE_GLOW }
 
-function ExperienceCard({ role, company, dates, bullets }: typeof EXPERIENCES[0]) {
+function ExperienceCard({ role, company, dates, bullets, description, previewImage, previewUrl }: typeof EXPERIENCES[0]) {
+  const imageBlock = previewImage ? (
+    <div className="relative h-36 border-t border-zinc-700 flex-shrink-0 overflow-hidden">
+      {previewUrl ? (
+        <a href={previewUrl} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
+          <Image src={previewImage} alt={company} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+        </a>
+      ) : (
+        <Image src={previewImage} alt={company} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+      )}
+    </div>
+  ) : null
+
   return (
-    <div className="border border-zinc-700 bg-black p-7 flex flex-col gap-4" style={cardGlow}>
-      <div>
-        <h3 className="text-white font-light leading-snug" style={{ fontFamily: 'var(--font-name)', fontSize: '1.5rem' }}>
-          {role}
-        </h3>
-        <div className="flex items-center gap-2 mt-1.5">
-          <span className="text-zinc-200 text-base">{company}</span>
-          <span className="text-zinc-500 text-sm">·</span>
-          <span className="text-zinc-400 text-base">{dates}</span>
+    <div className="border border-zinc-700 bg-black flex flex-col overflow-hidden" style={cardGlow}>
+      <div className="p-7 flex flex-col gap-4">
+        <div>
+          <h3 className="text-white font-light leading-snug" style={{ fontFamily: 'var(--font-name)', fontSize: '1.5rem' }}>
+            {role}
+          </h3>
+          <div className="flex items-center gap-2 mt-1.5">
+            <span className="text-zinc-200 text-base">{company}</span>
+            <span className="text-zinc-500 text-sm">·</span>
+            <span className="text-zinc-400 text-base">{dates}</span>
+          </div>
         </div>
+        {description && (
+          <p className="text-zinc-400 font-light leading-relaxed font-shippori italic" style={{ fontSize: '0.92rem' }}>
+            {renderDescription(description)}
+          </p>
+        )}
+        <ul className="flex flex-col gap-2.5">
+          {bullets.map((b, i) => (
+            <li key={i} className="text-zinc-300 font-light leading-relaxed font-shippori flex gap-3" style={{ fontSize: '1.05rem' }}>
+              <span className="text-zinc-500 flex-shrink-0 mt-0.5">—</span>
+              <span>{renderBullet(b)}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className="flex flex-col gap-2.5">
-        {bullets.map((b, i) => (
-          <li key={i} className="text-zinc-300 font-light leading-relaxed font-shippori flex gap-3" style={{ fontSize: '1.05rem' }}>
-            <span className="text-zinc-500 flex-shrink-0 mt-0.5">—</span>
-            <span>{renderBullet(b)}</span>
-          </li>
-        ))}
-      </ul>
+      {imageBlock}
     </div>
   )
 }
 
-function ProjectCard({ title, tags, description, image, githubUrl }: typeof TECH_PROJECTS[0]) {
+function ProjectCard({ title, tags, description, image, githubUrl, projectUrl, colorImage }: typeof TECH_PROJECTS[0]) {
   return (
     <div className="border border-zinc-700 bg-black overflow-hidden flex flex-col" style={cardGlow}>
       <div className="p-7 flex flex-col gap-3">
@@ -354,11 +410,19 @@ function ProjectCard({ title, tags, description, image, githubUrl }: typeof TECH
           {title}
         </h3>
         <p className="text-zinc-300 font-light leading-relaxed font-shippori" style={{ fontSize: '0.95rem' }}>
-          {description}
+          {renderDescription(description)}
         </p>
       </div>
       <div className="relative h-36 border-t border-zinc-700 flex-shrink-0">
-        <Image src={image} alt={title} fill className="object-cover grayscale opacity-50" sizes="(max-width: 768px) 100vw, 50vw" />
+        {image && (
+          projectUrl ? (
+            <a href={projectUrl} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
+              <Image src={image} alt={title} fill className={`object-cover ${colorImage ? 'opacity-90' : 'grayscale opacity-50'}`} sizes="(max-width: 768px) 100vw, 50vw" />
+            </a>
+          ) : (
+            <Image src={image} alt={title} fill className={`object-cover ${colorImage ? 'opacity-90' : 'grayscale opacity-50'}`} sizes="(max-width: 768px) 100vw, 50vw" />
+          )
+        )}
         {githubUrl && (
           <a
             href={githubUrl}
@@ -999,7 +1063,7 @@ We're all more than our work, but through my work and beyond it, you'll learn th
                       className="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 font-shippori text-xs tracking-wide">
                       <Github size={14} /> GitHub
                     </a>
-                    <a href="https://www.linkedin.com/in/ayaan--faisal/" target="_blank" rel="noopener noreferrer"
+                    <a href="https://www.linkedin.com/in/ayaanfaisal21/" target="_blank" rel="noopener noreferrer"
                       className="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 font-shippori text-xs tracking-wide">
                       <Linkedin size={14} /> LinkedIn
                     </a>
@@ -1007,7 +1071,7 @@ We're all more than our work, but through my work and beyond it, you'll learn th
                       className="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 font-shippori text-xs tracking-wide">
                       <XIcon size={14} /> X
                     </a>
-                    <a href="https://drive.google.com/file/d/1d6cQNKtWHHVqVeJmOwB9dcu--Ur9hknN/view?usp=sharing" target="_blank" rel="noopener noreferrer"
+                    <a href="https://drive.google.com/file/d/139lJn3_8caRHtZbu62m21gOkHSnOi0kh/view?usp=sharing" target="_blank" rel="noopener noreferrer"
                       className="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 font-shippori text-xs tracking-wide">
                       <FileText size={14} /> Resume
                     </a>
