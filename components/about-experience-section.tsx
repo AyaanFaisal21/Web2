@@ -211,7 +211,7 @@ const EXPERIENCES = [
   {
     role: 'Frontend Software Engineer',
     company: 'Freelance',
-    dates: 'Jul 2025 – Mar 2026',
+    dates: 'Jul 2025 – Feb 2026',
     bullets: [
       'Built premium web experiences using advanced frontend engineering tools, achieving Lighthouse scores over **90** across audited categories.',
       'Reduced CPU rendering workload by **65%** by identifying a costly 3D animation loop and applying scroll-progress-based render gating.',
@@ -245,12 +245,16 @@ const EXPANDED_ONLY_EXPERIENCES = [
 
 const TECH_PROJECTS = [
   {
-    id: 'pokermind',
-    title: 'PokerMind AI — Multi-Agent Decision System (In Development)',
-    tags: ['Python', 'LangGraph', 'Claude API', 'CrewAI', 'Playwright', 'PostgreSQL', 'Redis', 'Docker', 'AWS ECS', 'Grafana', 'scikit-learn'],
-    description: 'A behavioral AI research system built around a genuinely hard problem: what does it take for an autonomous agent to play poker indistinguishably from a human? The nuanced challenge here is defeating bot-detection heuristics that fingerprint agents on action-timing regularity, bet-sizing quantization, and decision-tree periodicity. PokerMind uses a council-of-agents architecture: four LLM microservices (Strategist, Historian, Humanizer, Orchestrator) debate each action before it\'s committed. A behavioral evasion subsystem samples timing jitter, deliberate errors, and fatigue patterns from learned human priors. Deployed on AWS ECS with Redis message brokering and a Grafana observability layer.',
-    image: '/AgentSwarm.png',
-    githubUrl: 'https://github.com/AyaanFaisal21/PokerMindAI',
+    id: 'public-wire',
+    title: 'Public Wire — Autonomous Civic Newsroom',
+    tags: ['Python', 'TypeScript', 'Multi-Agent', 'LLM', 'ClickHouse', 'Next.js'],
+    description: 'Local government shapes daily life — bus routes, street closures, permits — but the information lives buried in PDFs, council agendas, and city portals no one has time to read. Public Wire is an autonomous civic newsroom that monitors a city\'s official web presence and publishes short, source-cited briefs of what actually matters to residents.\n\n A six-agent pipeline handles the work end-to-end: Scout discovers sources, Analyst extracts events, Editor classifies for relevance, Writer drafts under no-invention rules, and Mentor verifies against the original evidence — with loop-backs whenever a claim is thin or a draft drifts. A Reflector meta-agent reads rejection logs from ClickHouse, detects recurring failure patterns, and rewrites the Editor\'s prompt to prevent them, every revision versioned and auditable. Every decision, source check, and prompt change is logged to an immutable ClickHouse ledger, so any published brief can be traced back to exactly how and why it was written. See [public-wire.vercel.app](https://public-wire.vercel.app).',
+    image: '/publicwireOG2.jpg',
+    colorImage: true,
+    projectUrl: 'https://public-wire.vercel.app',
+    githubUrl: 'https://github.com/AyaanFaisal21/Public-Wire',
+    imagePosition: 'left 42%',
+    imageZoom: 1.25,
   },
   {
     id: 'fantasy-stocks',
@@ -260,7 +264,17 @@ const TECH_PROJECTS = [
     image: '/FantasyStocksColor.jpg',
     colorImage: true,
     projectUrl: 'https://fantok.vercel.app',
+    imagePosition: 'center 30%',
+
     githubUrl: 'https://github.com/AaravL/FantasyStocks',
+  },
+  {
+    id: 'pokermind',
+    title: 'PokerMind AI — Multi-Agent Decision System (In Development)',
+    tags: ['Python', 'LangGraph', 'Claude API', 'CrewAI', 'Playwright', 'PostgreSQL', 'Redis', 'Docker', 'AWS ECS', 'Grafana', 'scikit-learn'],
+    description: 'A behavioral AI research system built around a genuinely hard problem: what does it take for an autonomous agent to play poker indistinguishably from a human? The nuanced challenge here is defeating bot-detection heuristics that fingerprint agents on action-timing regularity, bet-sizing quantization, and decision-tree periodicity. PokerMind uses a council-of-agents architecture: four LLM microservices (Strategist, Historian, Humanizer, Orchestrator) debate each action before it\'s committed. A behavioral evasion subsystem samples timing jitter, deliberate errors, and fatigue patterns from learned human priors. Deployed on AWS ECS with Redis message brokering and a Grafana observability layer.',
+    image: '/AgentSwarm.png',
+    githubUrl: 'https://github.com/AyaanFaisal21/PokerMindAI',
   },
   {
     id: 'sage',
@@ -394,7 +408,13 @@ function ExperienceCard({ role, company, dates, bullets, description, previewIma
   )
 }
 
-function ProjectCard({ title, tags, description, image, githubUrl, projectUrl, colorImage }: typeof TECH_PROJECTS[0]) {
+function ProjectCard({ title, tags, description, image, githubUrl, projectUrl, colorImage, imagePosition, imageZoom }: typeof TECH_PROJECTS[0]) {
+  const imageStyle: React.CSSProperties = {}
+  if (imagePosition) imageStyle.objectPosition = imagePosition
+  if (imageZoom && imageZoom !== 1) {
+    imageStyle.transform = `scale(${imageZoom})`
+    imageStyle.transformOrigin = 'left center'
+  }
   return (
     <div className="border border-zinc-700 bg-black overflow-hidden flex flex-col" style={cardGlow}>
       <div className="p-7 flex flex-col gap-3">
@@ -409,18 +429,24 @@ function ProjectCard({ title, tags, description, image, githubUrl, projectUrl, c
         <h3 className="text-white font-light leading-snug" style={{ fontFamily: 'var(--font-name)', fontSize: '1.25rem' }}>
           {title}
         </h3>
-        <p className="text-zinc-300 font-light leading-relaxed font-shippori" style={{ fontSize: '0.95rem' }}>
-          {renderDescription(description)}
-        </p>
+        {description.split('\n\n').map((para, i) => (
+          <p
+            key={i}
+            className="text-zinc-300 font-light leading-relaxed font-shippori"
+            style={{ fontSize: '0.95rem' }}
+          >
+            {renderDescription(para)}
+          </p>
+        ))}
       </div>
       <div className="relative h-36 border-t border-zinc-700 flex-shrink-0">
         {image && (
           projectUrl ? (
             <a href={projectUrl} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
-              <Image src={image} alt={title} fill className={`object-cover ${colorImage ? 'opacity-90' : 'grayscale opacity-50'}`} sizes="(max-width: 768px) 100vw, 50vw" />
+              <Image src={image} alt={title} fill className={`object-cover ${colorImage ? 'opacity-90' : 'grayscale opacity-50'}`} style={imageStyle} sizes="(max-width: 768px) 100vw, 50vw" />
             </a>
           ) : (
-            <Image src={image} alt={title} fill className={`object-cover ${colorImage ? 'opacity-90' : 'grayscale opacity-50'}`} sizes="(max-width: 768px) 100vw, 50vw" />
+            <Image src={image} alt={title} fill className={`object-cover ${colorImage ? 'opacity-90' : 'grayscale opacity-50'}`} style={imageStyle} sizes="(max-width: 768px) 100vw, 50vw" />
           )
         )}
         {githubUrl && (
