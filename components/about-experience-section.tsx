@@ -795,9 +795,9 @@ I'm also drawn to problems where the right answer isn't obvious—where prudent 
               {/* Image column */}
               <div className="relative h-full min-h-0">
                 <div className="absolute inset-2 overflow-hidden border border-zinc-800">
-                  <Image src="/People.jpeg" fill className="object-cover object-[center_80%] opacity-90" alt="Friends" sizes="(max-width: 1024px) 88vw, 34vw" />
+                  <Image src="/IMG_7856.jpeg" fill className="object-cover object-[center_80%] opacity-90" alt="Friends" sizes="(max-width: 1024px) 88vw, 34vw" />
                   <div className="absolute bottom-0.5 left-0.5 right-0.5 bg-black px-3 py-2 text-center">
-                    <p className="text-base text-white/80 font-light font-shippori">Blessed to be able to surround myself with ambitious and kind people</p>
+                    <p className="text-base text-white/80 font-light font-shippori">Presenting my product at the Datadog HQ in the NYT building!</p>
                   </div>
                 </div>
               </div>
@@ -990,8 +990,12 @@ We're all more than our work, but through my work and beyond it, you'll learn th
                 Technical Skills
               </h2>
               <div className="grid grid-cols-2 gap-px bg-zinc-800 border border-zinc-800">
-                {SKILLS.map(({ category, items }) => (
-                  <div key={category} className="bg-black p-7 flex flex-col gap-4">
+                {SKILLS.map(({ category, items }, idx) => (
+                  <div
+                    key={category}
+                    className="bg-black p-7 flex flex-col gap-4"
+                    style={idx === SKILLS.length - 1 ? { gridColumn: '1 / -1' } : undefined}
+                  >
                     <p className="text-zinc-400 uppercase tracking-widest font-shippori" style={{ fontSize: '0.7rem' }}>
                       {category}
                     </p>
